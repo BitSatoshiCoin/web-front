@@ -25,12 +25,12 @@ export function LanguageToggle({ locale }: { locale: string }) {
   };
   return (
     <Select value={locale} onValueChange={switchLanguage}>
-      <SelectTrigger className="w-[70px]">
+      <SelectTrigger className="w-[70px] text-base font-medium">
         <SelectValue placeholder="Language" />
       </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="en">En</SelectItem>
-        <SelectItem value="zh">中文</SelectItem>
+      <SelectContent className="text-base font-medium">
+        <SelectItem value="en">EN</SelectItem>
+        <SelectItem value="zh">ZH</SelectItem>
       </SelectContent>
     </Select>
   );
