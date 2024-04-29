@@ -30,18 +30,20 @@ export default function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={cn([inter.className, 'min-w-full', 'min-h-screen'])}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <WagmiProvider>
+        <WagmiProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
             <SIteThemeBg />
-            <SiteHeader locale={locale} />
-            <main>{children}</main>
-          </WagmiProvider>
-        </ThemeProvider>
+            <div className="mx-auto min-h-full flex flex-col">
+              <SiteHeader locale={locale} />
+              <main className="pt-6 grow">{children}</main>
+            </div>
+          </ThemeProvider>
+        </WagmiProvider>
       </body>
     </html>
   );
