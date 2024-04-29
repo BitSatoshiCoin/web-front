@@ -33,8 +33,10 @@ export default function RootLayout({
         <WagmiProvider>
           <ThemeProvider defaultTheme="light" enableSystem>
             <SIteThemeBg />
-            <SiteHeader locale={locale} />
-            <main>{children}</main>
+            <div className="mx-auto min-h-full flex flex-col">
+              <SiteHeader locale={locale} />
+              <main className="pt-6 grow">{children}</main>
+            </div>
           </ThemeProvider>
         </WagmiProvider>
       </body>
