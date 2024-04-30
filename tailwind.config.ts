@@ -30,6 +30,7 @@ const config = {
         "line": "0 20px 20px -12px rgb(0 0 0 / 15%)",
       },
       colors: {
+        // gray: "#dad9d724",
         gary: "#dad9d724",
         line: "#cecece",
         border: "hsl(var(--border))",
