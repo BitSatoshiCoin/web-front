@@ -1,4 +1,4 @@
-import '@/app/globals.css';
+import './globals.css';
 
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -29,7 +29,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={cn([inter.className, 'min-w-full', 'min-h-screen'])}>
+      <body
+        className={cn([
+          inter.className,
+          'min-w-full',
+          'min-h-full',
+          'relative',
+        ])}
+      >
         <WagmiProvider>
           <ThemeProvider
             attribute="class"

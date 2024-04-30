@@ -7,7 +7,7 @@ export interface ConnectButtonProps {
 
 export function ConnectButton({ className }: ConnectButtonProps) {
   return (
-    <Button className={cn(['text-lg', 'font-semibold', className])}>
+    <Button className={cn(['text-base', 'font-semibold', className])}>
       Connect a Wallet
     </Button>
   );

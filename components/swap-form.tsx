@@ -7,7 +7,9 @@ import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, Form
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
+import {NumberInput} from "@/components/ui/number-input";
+import {HoverCard, HoverCardContent, HoverCardTrigger} from "@/components/ui/hover-card";
+import {BadgeHelp} from "lucide-react";
 
 const formNet = z.enum(['BTC'] as const);
 const toNet = z.enum(['TRON','ETH'] as const);
@@ -45,28 +47,22 @@ export function SwapForm() {
     const {register} =form;
 
     return (
-        // <Card>
-        //             <CardHeader className='center'>
-        //                 <CardTitle>Places Send Me Your Gold</CardTitle>
-        //                 <CardDescription>And then turn gold into coins by minting it.</CardDescription>
-        //             </CardHeader>
-        //             <CardContent>
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                                <div className="flex justify-center">
+                                    <FormLabel className="text-center">Swap Routing</FormLabel>
+                                </div>
+                                <div style={{margin:0}} className="m-0 flex justify-around">
                                 <FormField
                                     control={form.control}
-                                    name="routing"
+                                    name="routing.formNet"
                                     render={({ field }) => {
                                         const form = formNet.enum.BTC;
-                                        const to = toNet.options;
-                                        const {onChange,value} = field;
                                         return (
                                             <FormItem>
-                                                <FormLabel>Swap Routing</FormLabel>
-                                                <div className="flex justify-between">
                                                     <FormControl className="inline">
-                                                        <Select value={value.formNet}  disabled>
-                                                            <SelectTrigger className="w-44">
+                                                        <Select {...field}  disabled>
+                                                            <SelectTrigger className="w-24">
                                                                 <SelectValue placeholder={form} />
                                                             </SelectTrigger>
                                                             <SelectContent>
@@ -74,67 +70,79 @@ export function SwapForm() {
                                                             </SelectContent>
                                                         </Select>
                                                     </FormControl>
-                                                    <FormControl className="inline">
-                                                            <Select {...register('routing.toNet')}>
-                                                            <SelectTrigger className="w-44">
-                                                                <SelectValue placeholder={to[0]} />
-                                                            </SelectTrigger>
-                                                            <SelectContent>
-                                                                {to.map((v)=>(<SelectItem key={v} value={v}>{v}</SelectItem>))}
-                                                            </SelectContent>
-                                                        </Select>
-                                                    </FormControl>
-
-                                                </div>
-                                                <FormDescription>
-                                                    Please select the blockchain you want to mint tokens on
-                                                </FormDescription>
+                                                    {/*<FormControl className="inline">*/}
+                                                    {/*        <Select {...register('routing.toNet')}>*/}
+                                                    {/*        <SelectTrigger className="w-24">*/}
+                                                    {/*            <SelectValue placeholder={to[0]} />*/}
+                                                    {/*        </SelectTrigger>*/}
+                                                    {/*        <SelectContent>*/}
+                                                    {/*            {to.map((v)=>(<SelectItem key={v} value={v}>{v}</SelectItem>))}*/}
+                                                    {/*        </SelectContent>*/}
+                                                    {/*    </Select>*/}
+                                                    {/*</FormControl>*/}
                                                 <FormMessage />
                                             </FormItem>
-                                        )}}
-                                />
-                                {/*<FormField*/}
-                                {/*    control={form.control}*/}
-                                {/*    name="toNet"*/}
-                                {/*    render={({ field }) => {*/}
-                                {/*        return (*/}
-                                {/*            <FormItem>*/}
-                                {/*                <FormLabel>form</FormLabel>*/}
-                                {/*                <FormControl>*/}
-                                {/*                    <Select>*/}
-                                {/*                        <SelectTrigger className="w-44">*/}
-                                {/*                            <SelectValue placeholder={to[0]} />*/}
-                                {/*                        </SelectTrigger>*/}
-                                {/*                        <SelectContent>*/}
-                                {/*                            {to.map((v)=>(<SelectItem key={v} value={v}>{v}</SelectItem>))}*/}
-                                {/*                        </SelectContent>*/}
-                                {/*                    </Select>*/}
-                                {/*                </FormControl>*/}
-                                {/*                <FormDescription>*/}
-                                {/*                    This is your public display name.*/}
-                                {/*                </FormDescription>*/}
-                                {/*                <FormMessage />*/}
-                                {/*            </FormItem>*/}
-                                {/*        )}}*/}
-                                {/*/>*/}
+                                        )}}/>
+                                <FormField
+                                    control={form.control}
+                                    name="routing.toNet"
+                                    render={({ field }) => {
+                                        const to = toNet.options;
+                                        return (
+                                            <FormItem>
+                                                {/*<FormLabel className="text-center">Swap Routing</FormLabel>*/}
+                                                <FormControl>
+                                                    <Select {...field}>
+                                                        <SelectTrigger className="w-24">
+                                                            <SelectValue placeholder={to[0]} />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            {to.map((v)=>(<SelectItem key={v} value={v}>{v}</SelectItem>))}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}}/>
+                                </div>
 
                                 <FormField
                                     control={form.control}
                                     name="sendNum"
                                     render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Send</FormLabel>
+                                        <FormItem className="p-4 ease-out duration-500 bg-gary rounded-md ">
+                                            <div className="flex justify-between">
+                                                <FormLabel className="self-center">Send</FormLabel>
+                                                <Button type="button" className="font-extralight text-sky-500 inline bg-transparent p-0 hover:bg-transparent blue">Max</Button>
+                                            </div>
                                             <FormControl>
-                                                <Input type='number' placeholder="shadcn" {...field} />
+                                                <NumberInput type='number' placeholder="shadcn" {...field} />
                                             </FormControl>
-                                            <FormDescription>
+                                            <FormDescription className="text-center">
                                                 Please enter the amount to send
                                             </FormDescription>
                                             <FormMessage />
                                         </FormItem>
-                                    )}
-                                />
-
+                                    )}/>
+                                        <FormItem className="p-4 ease-out duration-500 bg-gary rounded-md ">
+                                            <div className="flex justify-between">
+                                                <FormLabel className="self-center">received</FormLabel>
+                                                <HoverCard>
+                                                    <HoverCardTrigger asChild>
+                                                        <Button type="button" className="bg-transparent p-0 hover:bg-transparent">
+                                                            <BadgeHelp size={18} className="stroke-1 stroke-gary-300" />
+                                                        </Button>
+                                                    </HoverCardTrigger>
+                                                    <HoverCardContent>
+                                                        The data is a prediction result and is for reference only
+                                                    </HoverCardContent>
+                                                </HoverCard>
+                                            </div>
+                                            <FormControl>
+                                                <NumberInput disabled type='number' value={0}  />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
                                 <FormField
                                     control={form.control}
                                     name="fee"
@@ -142,23 +150,15 @@ export function SwapForm() {
                                         <FormItem>
                                             <FormLabel>Max Fee</FormLabel>
                                             <FormControl>
-                                                <Input type='number' placeholder="shadcn" {...field} />
+                                                <Input className="text-center" type='number' placeholder="shadcn" {...field} />
                                             </FormControl>
-                                            <FormDescription>
-                                                Please enter the maximum value for the fee rang
-                                            </FormDescription>
                                             <FormMessage />
                                         </FormItem>
                                     )}
                                 />
-                                <Button type="submit">Submit</Button>
+                                <Button className="w-full" type="submit">Submit</Button>
                             </form>
                         </Form>
-                    // {/*// </CardContent>*/}
-                    // {/*// <CardFooter>*/}
-                    // {/*//     <p>Card Footer</p>*/}
-                    // {/*// </CardFooter>*/}
-           // {/*</Card>*/}
     )
 
     // 2. Define a submit handler.

@@ -46,7 +46,7 @@ export function SiteHeader({ locale }: { locale: string }) {
           {navigation.map((item) => (
             <a key={item.name} href={item.href} target="_blank">
               <Button
-                className="relative light:text-neutral-700/90 text-lg font-bold mr-9"
+                className="relative light:text-neutral-700/90 text-base font-bold mr-9"
                 variant="ghost"
               >
                 {t(item.name)}
