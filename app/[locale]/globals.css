@@ -48,3 +48,22 @@
     --ring: 0 72.2% 50.6%;
   }
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+  -webkit-appearance: none !important;
+  margin: 0;
+}
+input{
+  /*border: 0;*/
+  background-color: #0000;
+  outline: 0;
+}
+
+input[type="number"]{-moz-appearance:textfield;}
+button[role="combobox"]{
+  /*border-radius: 0;*/
+  /*border: 0;*/
+  /*background-color: #0000;*/
+  /*outline: 0;*/
+}
