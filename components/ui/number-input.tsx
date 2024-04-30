@@ -13,8 +13,6 @@ export interface InputProps
 const bigNum = BigNumber.clone();
 bigNum.config({DECIMAL_PLACES:9});
 
-
-const received = new BigNumber(0);
 const NumberInput = React.forwardRef<HTMLInputElement, InputProps>(
     ({className, type, ...props}, ref) => {
         const {disabled,onChange ,value } = props;
