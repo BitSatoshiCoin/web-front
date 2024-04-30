@@ -32,7 +32,6 @@ function Logo() {
 
 export function SiteHeader({ locale }: { locale: string }) {
   const t = useTranslations('Nav');
-
   return (
     <nav className="flex h-20 justify-between px-12">
       <div className="flex flex-1 items-center ml-5 ">
@@ -41,12 +40,12 @@ export function SiteHeader({ locale }: { locale: string }) {
         </Link>
       </div>
 
-      <div className="flex flex-1 items-center mr-4 justify-end">
-        <div className="flex items-center mr-10">
+      <div className="flex flex-1 items-center  justify-end gap-x-6">
+        <div className="flex items-center mr-14 gap-x-6">
           {navigation.map((item) => (
             <a key={item.name} href={item.href} target="_blank">
               <Button
-                className="relative light:text-neutral-700/90 text-base font-bold mr-9"
+                className="relative light:text-neutral-700/90 text-base font-bold"
                 variant="ghost"
               >
                 {t(item.name)}
@@ -54,10 +53,8 @@ export function SiteHeader({ locale }: { locale: string }) {
             </a>
           ))}
         </div>
-        <div className="mr-5">
-          <LanguageToggle locale={locale} />
-        </div>
-        <ModeToggle className="mr-5" />
+        <LanguageToggle locale={locale} />
+        <ModeToggle />
         <ConnectButton></ConnectButton>
       </div>
     </nav>
