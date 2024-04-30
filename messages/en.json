@@ -1,5 +1,9 @@
 {
   "Basic": {
     "text": "test 🥺"
+  },
+  "Nav": {
+    "Exchange": "Exchange",
+    "About us": "About us"
   }
 }

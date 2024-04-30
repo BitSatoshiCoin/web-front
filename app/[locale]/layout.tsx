@@ -29,12 +29,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={cn([inter.className, 'min-w-full', 'min-h-screen'])}>
-        <WagmiProvider>
-          <ThemeProvider defaultTheme="light" enableSystem>
+      <body
+        className={cn([
+          inter.className,
+          'min-w-full',
+          'min-h-full',
+          'relative',
+        ])}
+      >
+        <WagmiProvider locale={locale}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
             <SIteThemeBg />
-            <SiteHeader locale={locale} />
-            <main>{children}</main>
+            <div className="mx-auto min-h-full flex flex-col">
+              <SiteHeader locale={locale} />
+              <main className="pt-6 grow">{children}</main>
+            </div>
           </ThemeProvider>
         </WagmiProvider>
       </body>

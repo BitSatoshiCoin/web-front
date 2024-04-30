@@ -18,7 +18,20 @@ const config = {
       },
     },
     extend: {
+      width: {
+        '128': '32rem',
+        '144': '36rem',
+      },
+      dropShadow: {
+        "green": "#86efac 2px 2px 2px",
+        "red": "#fca5a5 2px 2px 2px"
+      },
+      boxShadow: {
+        "line": "0 20px 20px -12px rgb(0 0 0 / 15%)",
+      },
       colors: {
+        gary: "#dad9d724",
+        line: "#cecece",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
