@@ -44,7 +44,6 @@ export function SwapForm() {
             fee:0.0008
         },
     })
-    const {register} =form;
 
     return (
                         <Form {...form}>
@@ -111,9 +110,9 @@ export function SwapForm() {
                                     name="sendNum"
                                     render={({ field }) => (
                                         <FormItem className="p-4 ease-out duration-500 bg-gary rounded-md ">
-                                            <div className="flex justify-between">
+                                            <div className="h-4 flex justify-between">
                                                 <FormLabel className="self-center">Send</FormLabel>
-                                                <Button type="button" className="font-extralight text-sky-500 inline bg-transparent p-0 hover:bg-transparent blue">Max</Button>
+                                                <Button type="button" className="h-4 font-extralight text-sky-500 inline bg-transparent p-0 hover:bg-transparent blue">Max</Button>
                                             </div>
                                             <FormControl>
                                                 <NumberInput type='number' placeholder="shadcn" {...field} />
@@ -126,11 +125,11 @@ export function SwapForm() {
                                     )}/>
                                         <FormItem className="p-4 ease-out duration-500 bg-gary rounded-md ">
                                             <div className="flex justify-between">
-                                                <FormLabel className="self-center">received</FormLabel>
+                                                <FormLabel className="self-center">Received</FormLabel>
                                                 <HoverCard>
                                                     <HoverCardTrigger asChild>
-                                                        <Button type="button" className="bg-transparent p-0 hover:bg-transparent">
-                                                            <BadgeHelp size={18} className="stroke-1 stroke-gary-300" />
+                                                        <Button type="button" className="bg-transparent px-3 py-0 hover:bg-transparent">
+                                                            <BadgeHelp size={18} className="stroke-gray-500 stroke-1" />
                                                         </Button>
                                                     </HoverCardTrigger>
                                                     <HoverCardContent>

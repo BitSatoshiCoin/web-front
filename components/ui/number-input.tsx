@@ -4,15 +4,21 @@ import {useRef, useState} from "react"
 import {Button} from "@/components/ui/button";
 import {Minus, Plus} from "lucide-react";
 import {cn} from "@/lib/utils";
+import { BigNumber } from "bignumber.js";
 
 
 export interface InputProps
     extends React.InputHTMLAttributes<HTMLInputElement> {
 }
+const bigNum = BigNumber.clone();
+bigNum.config({DECIMAL_PLACES:9});
 
+
+const received = new BigNumber(0);
 const NumberInput = React.forwardRef<HTMLInputElement, InputProps>(
     ({className, type, ...props}, ref) => {
         const {disabled,onChange ,value } = props;
+        const val = value as number;
         const [lineWidth, setLineWidth] = useState(0);
         const containerRef = useRef<HTMLDivElement>(null);
         return (<div ref={containerRef}
@@ -22,7 +28,10 @@ const NumberInput = React.forwardRef<HTMLInputElement, InputProps>(
                 <div className="w-full pb-4 flex ">
                     <Button type="button"
                             disabled={disabled}
-                            onClick={()=>onChange?.(Number(value)-1)}
+                            onClick={()=>{
+                                const res = bigNum.sum(val,-0.1).abs().toNumber();
+                                onChange?.(res);
+                            }}
                             className="w-10 bg-transparent p-0 hover:bg-transparent" >
                         <Minus className={"stroke-red-600 hover:stroke-red-400 hover:drop-shadow-red ease-linear duration-700 "} fontSize="50px" color="red" strokeWidth="1" size="50"/>
                     </Button>
@@ -35,7 +44,10 @@ const NumberInput = React.forwardRef<HTMLInputElement, InputProps>(
                            {...props}/>
                     <Button type="button"
                             disabled={disabled}
-                            onClick={()=>onChange?.(Number(value)+1)}
+                            onClick={()=>{
+                                const res = bigNum.sum(val,0.1).abs().toNumber();
+                                onChange?.(res);
+                            }}
                             className="w-10 bg-transparent p-0 hover:bg-transparent" >
                         <Plus  className="stroke-green-600 hover:stroke-green-400 hover:drop-shadow-green ease-linear duration-700 " fontSize="50px" strokeWidth="1" size="50"/>
                     </Button>
