@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 
-export function SIteThemeBg() {
+export function SiteThemeBg() {
   const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();
 

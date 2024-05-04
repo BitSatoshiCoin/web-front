@@ -1,11 +1,27 @@
 'use client';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { ConnectButton as NextConnectButton } from '@rainbow-me/rainbowkit';
+import { useState } from 'react';
+import { abbreviateAddress } from '@/lib/utils';
+import { useAccount, useDisconnect, useBalance } from 'wagmi';
+
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet';
 import Image from 'next/image';
-import { useConnections } from 'wagmi';
+import { useToast } from '@/components/ui/use-toast';
+import { ToastAction } from '@/components/ui/toast';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { ConnectButton as NextConnectButton } from '@rainbow-me/rainbowkit';
+import { Button } from '@/components/ui/button';
+import { Copy, LogOut } from 'lucide-react';
+
 export function ConnectButton() {
-  const connections = useConnections();
+  const [open, setOpen] = useState(false);
+  const curAccount = useAccount();
+
   return (
     <div>
       <NextConnectButton.Custom>
@@ -42,7 +58,7 @@ export function ConnectButton() {
                 if (!connected) {
                   return (
                     <Button onClick={openConnectModal} type="button">
-                      Connect Wallet
+                      Connect a Wallet
                     </Button>
                   );
                 }
@@ -54,14 +70,15 @@ export function ConnectButton() {
                     </Button>
                   );
                 }
-                const address = account.address;
-                const connection = connections.find((item) =>
-                  item.accounts.includes(address as `0x${string}`)
-                );
-                const connector = connection?.connector;
+                const connector = curAccount?.connector;
 
                 return (
-                  <Button type="button" onClick={openAccountModal}>
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      setOpen(!open);
+                    }}
+                  >
                     {connector && connector.icon && (
                       <Image
                         src={connector.icon}
@@ -79,6 +96,116 @@ export function ConnectButton() {
           );
         }}
       </NextConnectButton.Custom>
+      <SideDialog open={open} setOpen={setOpen} />
     </div>
   );
 }
+
+/**
+ * 侧边弹窗组件
+ */
+const SideDialog = ({
+  open,
+  setOpen,
+}: {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}) => {
+  const { disconnect } = useDisconnect();
+  const account = useAccount();
+  const { data } = useBalance({
+    address: account.address,
+  });
+  const { toast } = useToast();
+
+  /**
+   * 复制函数
+   * @param address
+   */
+  const copyAddress = async (address: string) => {
+    let dismissFn: () => void;
+    try {
+      await navigator.clipboard.writeText(address);
+      const { dismiss } = toast({
+        description: 'Copy Sucess.',
+      });
+      dismissFn = dismiss;
+    } catch (err) {
+      const { dismiss } = toast({
+        variant: 'destructive',
+        description: 'Copy Failure .',
+        action: (
+          <ToastAction altText="Try again" onClick={() => copyAddress(address)}>
+            Try again
+          </ToastAction>
+        ),
+      });
+      dismissFn = dismiss;
+    }
+    setTimeout(() => {
+      dismissFn();
+    }, 3000);
+  };
+
+  return (
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetContent className="rounded-l-lg">
+        <SheetHeader>
+          <SheetTitle>Your Accounts</SheetTitle>
+          <SheetDescription>
+            {/* Make changes to your profile here. Click save when you're done. */}
+          </SheetDescription>
+        </SheetHeader>
+        {account && account.isConnected && (
+          <>
+            {/* 头像部分 */}
+            <div className="flex w-full relative mt-4">
+              <Avatar className="p-2 w-12	h-12 bg-slate-100">
+                <AvatarImage
+                  src={account.connector!.icon || ''}
+                  alt={account.connector!.name}
+                />
+              </Avatar>
+              <div className="ml-2">
+                <div className="flex">
+                  <span className="text-base font-semibold text-zinc-800	">
+                    {abbreviateAddress(account.address as string)}
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="w-6 h-6"
+                    onClick={() => {
+                      copyAddress(account.address as string);
+                    }}
+                  >
+                    <Copy size={16} className="stroke-gray-400" />
+                  </Button>
+                </div>
+                <div className="text-neutral-400 text-sm">
+                  {account && account?.chain?.name}
+                </div>
+              </div>
+              <Button
+                className="absolute right-0"
+                variant="outline"
+                size="icon"
+                onClick={() => {
+                  disconnect();
+                  setOpen(false);
+                }}
+              >
+                <LogOut className="stroke-zinc-500" />
+              </Button>
+            </div>
+            {/* 下面余额部分 */}
+            <div>
+              {data?.formatted}
+              {data?.symbol}
+            </div>
+          </>
+        )}
+      </SheetContent>
+    </Sheet>
+  );
+};
