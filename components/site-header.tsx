@@ -2,13 +2,8 @@ import { LanguageToggle } from '@/components/language-toggle';
 import { ConnectButton } from '@/components/connect-button';
 import { ModeToggle } from '@/components/mode-toggle';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { useTranslations } from 'next-intl';
-
-const navigation = [
-  { name: 'Exchange', href: '/' },
-  { name: 'About us', href: '/about' },
-];
+import { Navigation } from '@/components/navigation';
+import { NextIntlClientProvider, useMessages } from 'next-intl';
 
 function Logo() {
   return (
@@ -30,8 +25,8 @@ function Logo() {
   );
 }
 
-export function SiteHeader({ locale }: { locale: string }) {
-  const t = useTranslations('Nav');
+export const SiteHeader = ({ locale }: { locale: string }) => {
+  const messages = useMessages();
   return (
     <nav className="flex h-20 justify-between px-12">
       <div className="flex flex-1 items-center ml-5 ">
@@ -42,16 +37,13 @@ export function SiteHeader({ locale }: { locale: string }) {
 
       <div className="flex flex-1 items-center  justify-end gap-x-6">
         <div className="flex items-center mr-14 gap-x-6">
-          {navigation.map((item) => (
-            <a key={item.name} href={item.href} target="_blank">
-              <Button
-                className="relative light:text-neutral-700/90 text-base font-bold"
-                variant="ghost"
-              >
-                {t(item.name)}
-              </Button>
-            </a>
-          ))}
+          <NextIntlClientProvider
+            messages={{
+              Nav: messages.Nav,
+            }}
+          >
+            <Navigation locale={locale} />
+          </NextIntlClientProvider>
         </div>
         <LanguageToggle locale={locale} />
         <ModeToggle />
@@ -59,4 +51,4 @@ export function SiteHeader({ locale }: { locale: string }) {
       </div>
     </nav>
   );
-}
+};

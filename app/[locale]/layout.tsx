@@ -5,9 +5,10 @@ import { Inter } from 'next/font/google';
 import { WagmiProvider } from '@/components/wagmi-provider';
 import { ThemeProvider } from '@/components/theme-provider';
 import { SiteHeader } from '@/components/site-header';
-import { SIteThemeBg } from '@/components/site-theme-bg';
+import { SiteThemeBg } from '@/components/site-theme-bg';
 import { cn } from '@/lib/utils';
 import { locales } from '@/config/locale-config';
+import { Toaster } from '@/components/ui/toaster';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -33,7 +34,7 @@ export default function RootLayout({
         className={cn([
           inter.className,
           'min-w-full',
-          'min-h-full',
+          'min-h-screen',
           'relative',
         ])}
       >
@@ -44,11 +45,12 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <SIteThemeBg />
+            <SiteThemeBg />
             <div className="mx-auto min-h-full flex flex-col">
               <SiteHeader locale={locale} />
               <main className="pt-6 grow">{children}</main>
             </div>
+            <Toaster />
           </ThemeProvider>
         </WagmiProvider>
       </body>
